@@ -29,6 +29,7 @@ async function run(): Promise<void> {
     const updaterJsonKeepUniversal = core.getBooleanInput(
       'updaterJsonKeepUniversal',
     );
+    const updaterJsonFilename = core.getInput('updaterJsonFilename');
     const retryAttempts = parseInt(core.getInput('retryAttempts') || '0', 10);
     const tauriScript = core.getInput('tauriScript');
     const args = stringArgv(core.getInput('args'));
@@ -202,6 +203,7 @@ async function run(): Promise<void> {
           unzippedSig: info.unzippedSigs,
           updaterJsonPreferNsis,
           updaterJsonKeepUniversal,
+          updaterJsonFilename,
         });
       }
     } else {

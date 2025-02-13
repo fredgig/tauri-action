@@ -34,6 +34,7 @@ export async function uploadVersionJSON({
   unzippedSig,
   updaterJsonPreferNsis,
   updaterJsonKeepUniversal,
+  updaterJsonFilename,
 }: {
   owner: string;
   repo: string;
@@ -46,6 +47,7 @@ export async function uploadVersionJSON({
   unzippedSig: boolean;
   updaterJsonPreferNsis: boolean;
   updaterJsonKeepUniversal: boolean;
+  updaterJsonFilename: string;
 }) {
   if (process.env.GITHUB_TOKEN === undefined) {
     throw new Error('GITHUB_TOKEN is required');
@@ -53,8 +55,7 @@ export async function uploadVersionJSON({
 
   const github = getOctokit(process.env.GITHUB_TOKEN);
 
-  const versionFilename = 'latest.json';
-  const versionFile = resolve(process.cwd(), versionFilename);
+  const versionFile = resolve(process.cwd(), updaterJsonFilename);
   const versionContent: VersionContent = {
     version,
     notes,
@@ -68,7 +69,7 @@ export async function uploadVersionJSON({
     release_id: releaseId,
     per_page: 50,
   });
-  const asset = assets.data.find((e) => e.name === versionFilename);
+  const asset = assets.data.find((e) => e.name === updaterJsonFilename);
 
   if (asset) {
     const assetData = (
